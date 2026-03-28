@@ -3,8 +3,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import { getContactRequests } from "@/lib/db/queries";
 
-export const dynamic = "force-dynamic";
-
 async function AdminContent() {
   const requests = await getContactRequests();
 
