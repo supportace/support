@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
-  cacheComponents: true,
+  cacheComponents: false,
   devIndicators: false,
   poweredByHeader: false,
   reactCompiler: true,
