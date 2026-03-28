@@ -5,7 +5,15 @@
       "Bash(npm install:*)",
       "Bash(vercel link:*)",
       "Bash(vercel env:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(find /c/Users/Gebruiker/support -type f -path */routes/* -name *auth* -o -path */routes/* -name *login* -o -path */routes/* -name *guest*)",
+      "Bash(grep -r guest /c/Users/Gebruiker/support --include=*.ts --include=*.tsx --include=*.js --include=*.jsx)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -rn guest /c/Users/Gebruiker/support/app --include=*.ts --include=*.tsx)",
+      "Bash(wc:*)",
+      "Bash(grep -rni \"guest\\\\|auto.*login\\\\|redirect.*login\" /c/Users/Gebruiker/support --include=*.ts --include=*.tsx --exclude-dir=node_modules --exclude-dir=.next)",
+      "Bash(ls:*)",
+      "Bash(ls /c/Users/Gebruiker/support/app/\\\\\\(auth\\\\\\)/api/auth/)"
     ]
   }
 }

@@ -94,7 +94,11 @@ async function AdminContent() {
 export default async function AdminPage() {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "admin") {
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  if (session.user.role !== "admin") {
     redirect("/");
   }
 
