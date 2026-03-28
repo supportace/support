@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import type { UserType, UserRole } from "./types";
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -14,8 +15,8 @@ export const authConfig = {
     jwt({ token, user }) {
       if (user) {
         token.id = user.id as string;
-        token.type = user.type as string;
-        token.role = user.role as string;
+        token.type = user.type as UserType;
+        token.role = user.role as UserRole;
       }
       return token;
     },
