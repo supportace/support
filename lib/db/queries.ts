@@ -21,6 +21,8 @@ import { generateUUID } from "../utils";
 import {
   type Chat,
   chat,
+  contactRequest,
+  type ContactRequest,
   type DBMessage,
   document,
   message,
@@ -57,22 +59,6 @@ export async function createUser(email: string, password: string) {
   }
 }
 
-export async function createGuestUser() {
-  const email = `guest-${Date.now()}`;
-  const password = generateHashedPassword(generateUUID());
-
-  try {
-    return await db.insert(user).values({ email, password }).returning({
-      id: user.id,
-      email: user.email,
-    });
-  } catch (_error) {
-    throw new ChatbotError(
-      "bad_request:database",
-      "Failed to create guest user"
-    );
-  }
-}
 
 export async function saveChat({
   id,
@@ -609,6 +595,45 @@ export async function createStreamId({
     throw new ChatbotError(
       "bad_request:database",
       "Failed to create stream id"
+    );
+  }
+}
+
+export async function createContactRequest({
+  name,
+  email,
+  phone,
+  message: msg,
+}: {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}): Promise<ContactRequest> {
+  try {
+    const [result] = await db
+      .insert(contactRequest)
+      .values({ name, email, phone, message: msg })
+      .returning();
+    return result;
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to save contact request"
+    );
+  }
+}
+
+export async function getContactRequests(): Promise<ContactRequest[]> {
+  try {
+    return await db
+      .select()
+      .from(contactRequest)
+      .orderBy(desc(contactRequest.createdAt));
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to get contact requests"
     );
   }
 }

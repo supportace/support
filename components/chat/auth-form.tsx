@@ -18,24 +18,24 @@ export function AuthForm({
     <Form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Label className="font-normal text-muted-foreground" htmlFor="email">
-          Email
+          Gebruikersnaam
         </Label>
         <Input
-          autoComplete="email"
+          autoComplete="username"
           autoFocus
           className="h-10 rounded-lg border-border/50 bg-muted/50 text-sm transition-colors focus:border-foreground/20 focus:bg-muted"
           defaultValue={defaultEmail}
           id="email"
           name="email"
-          placeholder="you@someo.ne"
+          placeholder="gebruikersnaam"
           required
-          type="email"
+          type="text"
         />
       </div>
 
       <div className="flex flex-col gap-2">
         <Label className="font-normal text-muted-foreground" htmlFor="password">
-          Password
+          Wachtwoord
         </Label>
         <Input
           className="h-10 rounded-lg border-border/50 bg-muted/50 text-sm transition-colors focus:border-foreground/20 focus:bg-muted"

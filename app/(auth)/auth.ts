@@ -3,16 +3,18 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { DUMMY_PASSWORD } from "@/lib/constants";
-import { createGuestUser, getUser } from "@/lib/db/queries";
+import { getUser } from "@/lib/db/queries";
 import { authConfig } from "./auth.config";
+import type { UserRole, UserType } from "./types";
 
-export type UserType = "guest" | "regular";
+export type { UserType, UserRole };
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
       type: UserType;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
@@ -20,6 +22,7 @@ declare module "next-auth" {
     id?: string;
     email?: string | null;
     type: UserType;
+    role: UserRole;
   }
 }
 
@@ -27,6 +30,7 @@ declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     id: string;
     type: UserType;
+    role: UserRole;
   }
 }
 
@@ -40,8 +44,8 @@ export const {
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: "Gebruikersnaam", type: "text" },
+        password: { label: "Wachtwoord", type: "password" },
       },
       async authorize(credentials) {
         const email = String(credentials.email ?? "");
@@ -66,34 +70,12 @@ export const {
           return null;
         }
 
-        return { ...user, type: "regular" };
-      },
-    }),
-    Credentials({
-      id: "guest",
-      credentials: {},
-      async authorize() {
-        const [guestUser] = await createGuestUser();
-        return { ...guestUser, type: "guest" };
+        return {
+          ...user,
+          type: "regular" as UserType,
+          role: (user.role as UserRole) ?? "user",
+        };
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id as string;
-        token.type = user.type;
-      }
-
-      return token;
-    },
-    session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.type = token.type;
-      }
-
-      return session;
-    },
-  },
 });

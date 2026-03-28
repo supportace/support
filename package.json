@@ -15,6 +15,7 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
+    "db:seed": "npx tsx scripts/seed-users.ts",
     "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
   },
   "dependencies": {
@@ -72,6 +73,7 @@
     "react-data-grid": "7.0.0-beta.47",
     "react-dom": "19.0.1",
     "redis": "^5.0.0",
+    "resend": "^6.9.4",
     "resumable-stream": "^2.2.10",
     "server-only": "^0.0.1",
     "shiki": "^3.21.0",
